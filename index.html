@@ -27,83 +27,95 @@
       </div>
     </div>
     <div id="transaction-area">
-      <div class="row ">
-          <div class="col-md-4">
-              <div class="deposit status">
-                <h5>Deposit</h5>
-                <h2>$<span id="current-deposit">00</span></h2>
-              </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="deposit status">
+            <h5>Deposit</h5>
+            <h2>$<span id="current-deposit">00</span></h2>
           </div>
-          <div class="col-md-4">
-              <div class="Withdraw status">
-                <h5>Withdraw</h5>
-                <h2>$<span>00</span></h2>
-              </div>
+        </div>
+        <div class="col-md-4">
+          <div class="Withdraw status">
+            <h5>Withdraw</h5>
+            <h2>$<span id="currentWithdraw">00</span></h2>
           </div>
-          <div class="col-md-4">
-              <div class="Balance status">
-                <h5>Balance</h5>
-                <h2>$<span id="current-balance">1200</span></h2>
-              </div>
+        </div>
+        <div class="col-md-4">
+          <div class="Balance status">
+            <h5>Balance</h5>
+            <h2>$<span id="current-balance">1200</span></h2>
           </div>
+        </div>
       </div>
       <div class="row mt-5">
-          <div class="col-md-6">
-              <div class="form-submit">   
+        <div class="col-md-6">
+          <div class="form-submit">
             <h4 class="mb-3">Deposit</h4>
-            <input id="deposit-amount" type="text" class="form-control mb-3" placeholder="$ amount you want to deposit">
+            <input
+              id="deposit-amount"
+              type="text"
+              class="form-control mb-3"
+              placeholder="$ amount you want to deposit"
+            />
             <button id="add-deposit" class="btn btn-success">Deposit</button>
+          </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-submit mt">
+            <h4>Withdraw</h4>
+            <input id="withdrawAmount"
+              type="text"
+              class="form-control mb-3"
+              placeholder="$ amount you want to withdraw"
+            />
+            <button id="addWithdraw" class="btn btn-success">Withdraw</button>
           </div>
-          <div class="col-md-6">
-              <div class="form-submit mt">
-                <h4>Withdraw</h4>
-                <input type="text" class="form-control mb-3" placeholder="$ amount you want to withdraw">
-                <button class="btn btn-success">Withdraw</button>
-              </div>
-          </div>
+        </div>
       </div>
-
     </div>
 
-
-
-
-
     <script>
-        // login button event handler
-      const loginBtn = document
-        .getElementById("login");
-        loginBtn.addEventListener("click", function () {
-          const loginArea = document.getElementById("login-area");
-          loginArea.style.display = "none";
-          const transactionArea = document.getElementById("transaction-area");
-          transactionArea.style.display = "block";
-        });
+      // login button event handler
+      const loginBtn = document.getElementById("login");
+      loginBtn.addEventListener("click", function () {
+        const loginArea = document.getElementById("login-area");
+        loginArea.style.display = "none";
+        const transactionArea = document.getElementById("transaction-area");
+        transactionArea.style.display = "block";
+      });
 
-        // deposit button event handler
-        const addDeposit = document.getElementById('add-deposit');
-        addDeposit.addEventListener('click',function(){
-            const depositAmount = document.getElementById('deposit-amount').value;
-            const depositNumber = parseFloat(depositAmount);
+      // deposit button event handler
+      const addDeposit = document.getElementById("add-deposit");
+      addDeposit.addEventListener("click", function () {
+        const depositNumber = getInputNumber("deposit-amount")
+
+        updateSpanText("current-deposit", depositNumber);
+        updateSpanText("current-balance", depositNumber);
+
+        document.getElementById("deposit-amount").value = "";
+      });
+
+      // withdraw button event handler
+      const withdrawBtn = document.getElementById('addWithdraw');
+      withdrawBtn.addEventListener('click', function(){
+        const withdrawNumber = getInputNumber('withdrawAmount');
+        updateSpanText('currentWithdraw', withdrawNumber);
+        updateSpanText('current-balance', -1* withdrawNumber)
+        document.getElementById('withdrawAmount').value = "";
+      })
+      function getInputNumber(id){
+        const amount = document.getElementById(id).value;
+        const amountNumber = parseFloat(amount);
+        return amountNumber;
+      }
 
 
-            // const currentDeposit = document.getElementById('current-deposit').innerText;
-            // const currentDepositNumber = parseFloat(currentDeposit);
-            // const totalDeposit = depositNumber + currentDepositNumber;
-            // document.getElementById('current-deposit').innerText = totalDeposit;
-             updateSpanText('current-deposit', depositNumber);
-            updateSpanText('current-balance', depositNumber);
-
-            document.getElementById('deposit-amount').value = "";
-        })
-        function updateSpanText(id,depositNumber){
-          const currentBalance = document.getElementById(id).innerText;
-            const currentBalanceNumber = parseFloat(currentBalance);
-            const currentBalanceTotal = depositNumber + currentBalanceNumber;
-            document.getElementById(id).innerText = currentBalanceTotal;
-        }
-
+      function updateSpanText(id, depositNumber) {
+        const Balance = document.getElementById(id).innerText;
+        const BalanceNumber = parseFloat(Balance);
+        const totalAmount = depositNumber + BalanceNumber;
+        document.getElementById(id).innerText = totalAmount;
+      }
     </script>
   </body>
 </html>
